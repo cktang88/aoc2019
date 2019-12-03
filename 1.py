@@ -1,4 +1,4 @@
-inp = open('in.txt','r')
+inp = open('1.txt','r')
 arr = [int(l.strip()) for l in inp]
 def f(i):
     res = 0
