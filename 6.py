@@ -21,6 +21,7 @@ for i in arr:
 #             cnts[j] = cnts[i] + 1
 # print(sum(cnts.values()), bound)
 
+# create a reversed adjacency list representation stemming from 'YOU'
 newd = {}
 for k in d:
     for i in d[k]:
@@ -37,21 +38,19 @@ bound = newd['YOU']
 cnts = {}
 for i in bound:
     cnts[i] = 1
-seen = set()
 got = False
 while len(bound) > 0:
     i = bound.pop()
     # print(i)
     if i in newd:
-        arr = newd[i].difference(seen)
+        arr = newd[i].difference(cnts.keys())
         if 'SAN' in arr:
-            print('boom', cnts[i])
+            print('ans', cnts[i] - 1)
             got = True
             break
         bound = bound.union(arr)
         for j in arr:
             cnts[j] = cnts[i] + 1
         # print(arr)
-    seen.add(i)
 print('Verified: ', got)
 
