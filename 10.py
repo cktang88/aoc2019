@@ -1,4 +1,5 @@
 import math
+import operator
 
 inp = open('10.txt','r')
 arr = [[i for i in l.strip()] for l in inp]
@@ -15,33 +16,20 @@ print(len(pos))
 
 mx = 0
 sign = lambda a: (a>0) - (a<0)
-def cal(a,b):
-    a1,a2 = a
-    b1,b2 = b
-    sl = 0
-    if b2 == a2:
-        sl = float('inf')
-    elif a1 == b1:
-        sl = 0
-    else:
-        sl = float(b2-a2)/float(b1-a1)
-    return (sl, sign(b2-a2), sign(b1-a1))
-
+cal = lambda a,b: math.atan2(b[1]-a[1], b[0]-a[0])
 
 for i in pos:
     slopes = set()
     for j in pos:
-        if i != j:
-            slopes.add(cal(i,j))
+        slopes.add(cal(i,j))
     ls = len(slopes)
     if ls > mx:
         mx = ls
-        print(i)
     # print(ls, slopes)
 print(mx)
 best = (19,27)
 # print(bs)
-import operator
+
 slopes = {}
 for j in pos:
     if best != j:
@@ -50,23 +38,22 @@ for j in pos:
             slopes[s] = []
         slopes[s].append(j)
 # print(slopes.items())
+for s in slopes:
+    slopes[s] = sorted(slopes[s], key=lambda k: abs(k[0]-best[0])+abs(k[1]-best[1]))
 ns = sorted(slopes.items(), key=operator.itemgetter(0))[::-1]
-print(ns, len(ns))
+# print(ns, len(ns))
 
 cnt = 0
+i = 0
 while cnt < 200:
-    k = ns[cnt%len(ns)][1].pop(0)
-    if len(ns[cnt%len(ns)][1]) == 0:
-        ns.pop(cnt%len(ns))
-    print(k)
+    k = ns[i][1].pop(0)
+    if len(ns[i][1]) == 0:
+        ns.pop(i)
+        i -= 1
+    # print(k)
     cnt += 1
+    i += 1
     if cnt == 200:
         print('end', k)
         break
-
-# best_slope = ns[0]
-# for i in pos:
-#     s = cal(best,i)
-#     if s == best_slope:
-#         print(i)
 
